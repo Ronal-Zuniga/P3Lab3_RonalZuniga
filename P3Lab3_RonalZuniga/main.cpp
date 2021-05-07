@@ -1,11 +1,15 @@
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int menu();
 char* llenar_arreglo(int size);
 char* secuencia(char* arreglo, int size);
 void imprimir_arreglo(char* arreglo, int size);
+char** llenar_matriz(int n, int m, int k);
+int numero_random(int inicio, int limite);
+void imprimir_matriz(char** matriz, int n, int m);
 int tamano;
 
 int main() {
@@ -36,7 +40,25 @@ int main() {
 
 
 			case 2: {
-				
+				cout << endl;
+				cout << "--Matriz con Obstaculos--" << endl;
+				int n, m, k;
+				cout << "Ingrese n: ";
+				cin >> n;
+				cout << "Ingrese m: ";
+				cin >> m;
+				cout << "Ingrese k: ";
+				cin >> k;
+				cout << endl;
+				char** matriz = llenar_matriz(n, m, k);
+				cout << "Matriz generada: " << endl;
+				cout << endl;
+				imprimir_matriz(matriz, n, m);
+				cout << endl;
+				for(int i = 0; i < n; i++){
+					delete[] matriz[i];
+				}
+				delete[] matriz;
 				break;
 			}
 
@@ -81,7 +103,7 @@ char* llenar_arreglo(int size) {
 }
 
 char* secuencia(char* arreglo, int size) {
-	int tam = 0;	
+	int tam = 0;
 	char digitos[2];
 	char digito[1];
 	int aux;
@@ -148,4 +170,46 @@ void imprimir_arreglo(char* arreglo, int size) {
 		}
 	}
 	cout << endl;
+}
+
+int numero_random(int inicio, int limite) {
+	return inicio + (rand() % (limite - inicio));
+}
+
+char** llenar_matriz(int n, int m, int k) {
+	char** matriz;
+	matriz = new char*[n];
+	for(int i = 0; i < n; i++) {
+		matriz[i] = new char[m];
+	}
+
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < m; j++) {
+			*(*(matriz+i)+j) = '-';
+		}
+	}
+
+	srand ((unsigned)time(0));
+	int fila, col;
+	for(int i = 0; i < k; i++) {
+		fila = numero_random(0, n-1);
+		col = numero_random(0, m-1);
+		while(*(*(matriz+fila)+col) == '#') {
+			fila = numero_random(0, n-1);
+			col = numero_random(0, m-1);
+		}
+		*(*(matriz+fila)+col) = '#';
+	}
+	return matriz;
+}
+
+void imprimir_matriz(char** matriz, int n, int m){
+	for(int i = 0; i < n; i++) {
+		cout << "| ";
+		for(int j = 0; j < m; j++) {
+			cout << "'" << *(*(matriz+i)+j) << "'" << " ";
+		}
+		cout << "|";
+		cout << endl;
+	}
 }
