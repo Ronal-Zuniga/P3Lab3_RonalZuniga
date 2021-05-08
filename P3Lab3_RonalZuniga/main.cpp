@@ -10,6 +10,8 @@ void imprimir_arreglo(char* arreglo, int size);
 char** llenar_matriz(int n, int m, int k);
 int numero_random(int inicio, int limite);
 void imprimir_matriz(char** matriz, int n, int m);
+void ruta(int size, int n, int m, int k, int fila, int col);
+
 int tamano;
 
 int main() {
@@ -22,6 +24,12 @@ int main() {
 				int num;
 				cout << "Ingrese el size del arreglo: ";
 				cin >> num;
+				while(num <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese el size del arreglo: ";
+					cin >> num;
+					cout << endl;
+				}
 				char* arreglo = llenar_arreglo(num);
 				char* sec = secuencia(arreglo, num);
 				cout << endl;
@@ -45,17 +53,35 @@ int main() {
 				int n, m, k;
 				cout << "Ingrese n: ";
 				cin >> n;
+				while(n <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese n: ";
+					cin >> n;
+					cout << endl;
+				}
 				cout << "Ingrese m: ";
 				cin >> m;
+				while(m <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese m: ";
+					cin >> m;
+					cout << endl;
+				}
 				cout << "Ingrese k: ";
 				cin >> k;
+				while(k <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese m: ";
+					cin >> m;
+					cout << endl;
+				}
 				cout << endl;
 				char** matriz = llenar_matriz(n, m, k);
 				cout << "Matriz generada: " << endl;
 				cout << endl;
 				imprimir_matriz(matriz, n, m);
 				cout << endl;
-				for(int i = 0; i < n; i++){
+				for(int i = 0; i < n; i++) {
 					delete[] matriz[i];
 				}
 				delete[] matriz;
@@ -63,6 +89,63 @@ int main() {
 			}
 
 			case 3: {
+				cout << endl;
+				cout << "--Ruta--" << endl;
+				int num;
+				cout << "Ingrese el size del arreglo: ";
+				cin >> num;
+				while(num <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese el size del arreglo: ";
+					cin >> num;
+					cout << endl;
+				}
+				int n, m, k;
+				cout << "Ingrese n: ";
+				cin >> n;
+				while(n <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese n: ";
+					cin >> n;
+					cout << endl;
+				}
+				cout << "Ingrese m: ";
+				cin >> m;
+				while(m <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese m: ";
+					cin >> m;
+					cout << endl;
+				}
+				cout << "Ingrese k: ";
+				cin >> k;
+				while(k <= 0) {
+					cout << "Ingrese un numero no negativo" << endl;
+					cout << "Ingrese m: ";
+					cin >> m;
+					cout << endl;
+				}
+				cout << endl;
+				int fila, col;
+				cout << "Coordenadas de inicio de ruta" << endl;
+				cout << "Ingrese la fila: ";
+				cin >> fila;
+				while(fila < 0) {
+					cout << "Ingrese un numero mayor o igual que 0" << endl;
+					cout << "Ingrese la fila: ";
+					cin >> fila;
+					cout << endl;
+				}
+				cout << "Ingrese la columna: ";
+				cin >> col;
+				while(col < 0) {
+					cout << "Ingrese un numero mayor o igual que 0" << endl;
+					cout << "Ingrese la columna: ";
+					cin >> col;
+					cout << endl;
+				}
+				ruta(num, n, m, k, fila, col);
+				cout << endl;
 				break;
 			}
 		}//fin del switch
@@ -93,6 +176,7 @@ int menu() {
 char* llenar_arreglo(int size) {
 	char* arreglo = new char[size];
 	char letra;
+	cout << "Procure que las letras sean MAYUSCULAS" << endl;
 	for(int i = 0; i < size; i++) {
 		cout << "Ingrese el caracter [" << i << "]: ";
 		cin >> letra;
@@ -104,6 +188,7 @@ char* llenar_arreglo(int size) {
 
 char* secuencia(char* arreglo, int size) {
 	int tam = 0;
+	int size_digitos;
 	char digitos[2];
 	char digito[1];
 	int aux;
@@ -117,6 +202,7 @@ char* secuencia(char* arreglo, int size) {
 				digitos[0] = 0;
 				digitos[1] = 0;
 				aux = 0;
+				i++;
 			} else {
 				digito[0] = arreglo[i];
 				aux = atoi(digito);
@@ -177,18 +263,19 @@ int numero_random(int inicio, int limite) {
 }
 
 char** llenar_matriz(int n, int m, int k) {
+	//reservar el espacio de memoria
 	char** matriz;
 	matriz = new char*[n];
 	for(int i = 0; i < n; i++) {
 		matriz[i] = new char[m];
 	}
-
+	//llenar toda la matriz con guiones
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < m; j++) {
 			*(*(matriz+i)+j) = '-';
 		}
 	}
-
+	//generar las posiciones de los obstaculos y asignarlos a la matriz
 	srand ((unsigned)time(0));
 	int fila, col;
 	for(int i = 0; i < k; i++) {
@@ -203,7 +290,7 @@ char** llenar_matriz(int n, int m, int k) {
 	return matriz;
 }
 
-void imprimir_matriz(char** matriz, int n, int m){
+void imprimir_matriz(char** matriz, int n, int m) {
 	for(int i = 0; i < n; i++) {
 		cout << "| ";
 		for(int j = 0; j < m; j++) {
@@ -212,4 +299,98 @@ void imprimir_matriz(char** matriz, int n, int m){
 		cout << "|";
 		cout << endl;
 	}
+}
+
+void ruta(int size, int n, int m, int k, int fila, int col) {
+	char* arreglo = llenar_arreglo(size);
+	char* sec = secuencia(arreglo, size);
+	cout << "Secuencia Ingresada por el Usuario: ";
+	imprimir_arreglo(arreglo, size);
+	cout << endl;
+	cout << "Secuencia Transformada: ";
+	imprimir_arreglo(sec, tamano);
+	cout << endl;
+	cout << "Matriz con n = " << n << ", m = " << m << ", k = " << k << endl;
+	char** matriz = llenar_matriz(n, m, k);
+	imprimir_matriz(matriz, n, m);
+	cout << endl;
+	cout << "Coordenadas de Inicio de la Ruta" << endl;
+	cout << "Fila = " << fila << endl;
+	cout << "Columna = " << col << endl;
+	cout << endl;
+	cout << "**ATENCION**" << endl;
+	cout << "La ventana se limpiara para mostrar los pasos" << endl;
+	cout << "Presiona enter para continuar" << endl;
+	system("PAUSE");
+	system("CLS");
+	int pasos = 1;
+	for(int i = 0; i < tamano; i++) {
+		if(*(*(matriz+fila)+col) != '#' || (int)*(*(matriz+fila)+col) != 35) {
+			if(sec[i] == 'U' || (int)sec[i] == 85) {
+				*(*(matriz+fila)+col) = 186;
+				if(*(*(matriz+(fila+1))+col) == 205) {
+					if(*(*(matriz+(fila+1))+(col-1)) == 205 && *(*(matriz+(fila+1))+(col+1)) != 205) {
+						*(*(matriz+(fila+1))+col) = 188;
+					}
+					if(*(*(matriz+(fila+1))+(col+1)) == 205 && *(*(matriz+(fila+1))+(col-1)) != 205) {
+						*(*(matriz+(fila+1))+col) = 200;
+					}
+				}
+				fila--;
+			}
+			if(sec[i] == 'D' || (int)sec[i] == 68) {
+				*(*(matriz+fila)+col) = 186;
+				if(*(*(matriz+(fila-1))+col) == 205) {
+					if(*(*(matriz+(fila-1))+(col-1)) == 205 && *(*(matriz+(fila-1))+(col+1)) != 205) {
+						*(*(matriz+(fila-1))+col) = 187;
+					}
+					if(*(*(matriz+(fila-1))+(col+1)) == 205 && *(*(matriz+(fila-1))+(col-1)) != 205) {
+						*(*(matriz+(fila-1))+col) = 201;
+					}
+				}
+				fila++;
+			}
+			if(sec[i] == 'R' || (int)sec[i] == 82) {
+				*(*(matriz+fila)+col) = 205;
+				if(fila+1 > n || *(*(matriz+fila+1)+(col-1)) != 186) {
+					if(*(*(matriz+fila)+(col-1)) == 186) {
+						*(*(matriz+fila)+(col-1)) = 200;
+					}
+				} else {
+					if(*(*(matriz+fila)+(col-1)) == 186) {
+						*(*(matriz+fila)+(col-1)) = 201;
+					}
+				}
+				col++;
+			}
+			if(sec[i] == 'L' || (int)sec[i] ==76) {
+				*(*(matriz+fila)+col) = 205;
+				if(fila+1 > n || *(*(matriz+fila+1)+(col+1)) != 186) {
+					if(*(*(matriz+fila)+(col+1)) == 186) {
+						*(*(matriz+fila)+(col+1)) = 188;
+					}
+				} else {
+					if(*(*(matriz+fila)+(col+1)) == 186) {
+						*(*(matriz+fila)+(col+1)) = 187;
+					}
+				}
+				col--;
+			}
+			cout << "Paso " << pasos << ":" << endl;
+			imprimir_matriz(matriz, n, m);
+			cout << endl;
+			cout << "Presione enter para ver el siguiente paso" << endl;
+			system("PAUSE");
+			system("CLS");
+			pasos++;
+		}
+	}
+	cout << "Ruta Terminada" << endl;
+	delete[] arreglo;
+	delete[] sec;
+	tamano = 0;
+	for(int i = 0; i < n; i++) {
+		delete[] matriz[i];
+	}
+	delete[] matriz;
 }
